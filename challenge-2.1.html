@@ -1,78 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<title>Throttled Click Counter</title>
-    <style type="text/css">
 
-      body {
-        margin: 0;
-        font-family: sans-serif;
-      }
+<head>
+  <meta charset="UTF-8">
+  <title>Throttled Click Counter</title>
+  <style type="text/css">
+    body {
+      margin: 0;
+      font-family: sans-serif;
+    }
 
-      header,
-      main {
-        margin: 50px;
-      }
+    header,
+    main {
+      margin: 50px;
+    }
 
-      button {
-        font-size: 20px;
-        text-transform: uppercase;
-        font-weight: 700;
-        display: inline-block;
-        background: #FFF;
-        color: #000;
-        padding: .5em 1em;
-        border: 5px solid #000;
-        border-radius: .5em;
-        cursor: pointer;
-        filter: drop-shadow(5px 5px 6px rgba(0, 0, 0, 0.5));
-      }
+    button {
+      font-size: 20px;
+      text-transform: uppercase;
+      font-weight: 700;
+      display: inline-block;
+      background: #FFF;
+      color: #000;
+      padding: .5em 1em;
+      border: 5px solid #000;
+      border-radius: .5em;
+      cursor: pointer;
+      filter: drop-shadow(5px 5px 6px rgba(0, 0, 0, 0.5));
+    }
 
-      button:hover {
-        transform: scale(1.01);
-      }
+    button:hover {
+      transform: scale(1.01);
+    }
 
-      button:active {
-        transform: scale(.99);
-      }
+    button:active {
+      transform: scale(.99);
+    }
 
-      p {
-        font-size: 15px;
-      }
-    </style>
-    <script type="text/javascript">
-      document.addEventListener('DOMContentLoaded', function() {
+    p {
+      font-size: 15px;
+    }
+  </style>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
 
-        let clickCount = 0;
-        let clickCountThrottle = null;
-        const counter = document.getElementById('counter');
-        const incrementer = document.getElementById('incrementer');
+      let clickCount = 0;
+      let clickCountThrottle = null;
+      const counter = document.getElementById('counter');
+      const incrementer = document.getElementById('incrementer');
 
-        function updateCounter() {
-          if (clickCountThrottle === null) {
-            clickCountThrottle = setTimeout(() => {
-              counter.innerText = clickCount;
-              clickCountThrottle = null;
-            }, 500);
-          }
+      function updateCounter() {
+        if (clickCountThrottle === null) {
+          clickCountThrottle = setTimeout(() => {
+            counter.innerText = clickCount;
+            clickCountThrottle = null;
+          }, 500);
         }
+      }
 
-        incrementer.addEventListener('click', (e) => {
-          clickCount++;
-          updateCounter();
-        });
-        
+      incrementer.addEventListener('click', (e) => {
+        clickCount++;
+        updateCounter();
       });
-    </script>
-	</head>
-	<body>
-    <header>
-      <h1>Throttled Click Counter</h1>
-    </header>
-    <main>
-      <h2><span id="counter">0</span> Clicks</h2>
-      <button id="incrementer">Increase Clicks</buttom>
-    </main>
-	</body>
+
+    });
+  </script>
+</head>
+
+<body>
+  <header>
+    <h1>Throttled Click Counter</h1>
+  </header>
+  <main>
+    <h2><span id="counter">0</span> Clicks</h2>
+    <button id="incrementer">Increase Clicks</buttom>
+  </main>
+</body>
+
 </html>
