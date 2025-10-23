@@ -16,6 +16,7 @@
     }
 
     button {
+      display: block;
       font-size: 20px;
       text-transform: uppercase;
       font-weight: 700;
@@ -45,22 +46,44 @@
     document.addEventListener('DOMContentLoaded', function() {
 
       let clickCount = 0;
-      let clickCountThrottle = null;
+      let countDisplayTime = new Date().getTime();
       const counter = document.getElementById('counter');
       const incrementer = document.getElementById('incrementer');
 
-      function updateCounter() {
-        if (clickCountThrottle === null) {
-          clickCountThrottle = setTimeout(() => {
-            counter.innerText = clickCount;
-            clickCountThrottle = null;
-          }, 500);
+      function updateCountDisplay() {
+        counter.innerText = clickCount;
+        console.log(`display count updated - ${new Date().getTime() - countDisplayTime}ms since last update`);
+        countDisplayTime = new Date().getTime();
+      }
+
+      function debounce(func) {
+        let timeout = null;
+        let lastDebounce = 0;
+        return () => {
+          clearTimeout(timeout);
+
+          if (Date.now() - lastDebounce >= 500) {
+            func();
+            lastDebounce = Date.now();
+          } else {
+            timeout = setTimeout(() => {
+              func();
+              timeout = null;
+              lastDebounce = Date.now();
+            }, 500);
+          }
         }
       }
 
+      const debounceCountUpdate = debounce(() => {
+        updateCountDisplay();
+        console.log(`debounce count update run with click count ${clickCount}`);
+      });
+
       incrementer.addEventListener('click', (e) => {
         clickCount++;
-        updateCounter();
+        debounceCountUpdate();
+        console.log(`debounce incrementer clicked with click count ${clickCount}`);
       });
 
     });
@@ -73,7 +96,7 @@
   </header>
   <main>
     <h2><span id="counter">0</span> Clicks</h2>
-    <button id="incrementer">Increase Clicks</buttom>
+    <button id="incrementer">Increase Clicks</button>
   </main>
 </body>
 
